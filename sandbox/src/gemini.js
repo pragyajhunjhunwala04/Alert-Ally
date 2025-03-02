@@ -3,7 +3,8 @@
 
 //give name and code word
 
-prompt = `Prompt: Create a Spoticry Conversation Flow over a phone call. You are tasked with creating a realistic conversation flow for Spoticry, a virtual companion safety app. Spoticry simulates a concerned friend or family member who is expecting to meet the user soon, providing security for people who feel anxious when traveling alone.
+prompt = `Prompt: Create a Spoticry Conversation Flow
+You are tasked with creating a realistic conversation flow for Spoticry, a virtual companion safety app. Spoticry simulates a concerned friend or family member who is expecting to meet the user soon, providing security for people who feel anxious when traveling alone.
 App Concept: Spoticry creates the impression that someone is waiting for the user at a destination, maintaining a natural conversation that feels like chatting with a real person who cares about their safe arrival.
 Your Task
 Generate a complete, realistic conversation flow between a Spoticry AI companion named Robert and a user who is traveling to meet them. The conversation should demonstrate how the app provides safety through natural dialogue.
@@ -49,8 +50,11 @@ Time-appropriate references (morning coffee, evening plans, etc.)
 Cultural sensitivity in communication style
 Relationship flexibility (friend, family member, partner)
 Location adaptability based on user context
+do not mention user name in the call but still makeit sound like you are familiar with them
 Purpose Statement
-This service aims to provide psychological comfort through the impression of expected arrival, creating both a sense of connection and the perception that someone is awaiting the user's safe arrival`;
+This service aims to provide psychological comfort through the impression of expected arrival, creating both a sense of connection and the perception that someone is awaiting the user's safe arrival
+Some notes: Do not give time stamps in this conversation flow. The agent should answer when the person is done speaking and vice versa. 
+Do not let there be awkward pauses. If there is one, fill in with some casual conversation.`;
 
 const {
     GoogleGenerativeAI,
@@ -75,14 +79,21 @@ const generationConfig = {
 };
   
 async function run() {
-const chatSession = model.startChat({
-    generationConfig,
-    history: [
-    ],
-});
+    try {
+        const chatSession = model.startChat({
+            generationConfig,
+            history: [],
+        });
 
-const result = await chatSession.sendMessage(prompt);
-console.log(result.response.text());
+        const result = await chatSession.sendMessage(prompt);
+        const responseText = result.response.text();
+        console.log(responseText);                          // Still log it for debugging
+        return responseText;                                // Return the text for use in other files
+    } catch (error) {
+        console.error("Error generating conversation:", error);
+        throw error;                                        // Re-throw to handle it in the calling code
+    }
 }
 
-run()
+module.exports = {run};
+//run();
