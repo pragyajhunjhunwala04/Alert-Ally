@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+//const fs = require('fs');
+//const path = require('path');
 
 //give name and code word
 
@@ -58,9 +58,8 @@ const {
     HarmBlockThreshold,
   } = require("@google/generative-ai");
   
-const secretsPath = path.join(__dirname, 'secrets.json');
-const secrets = JSON.parse(fs.readFileSync(secretsPath, 'utf8'));
-const apiKey = secrets.gemini_api;
+const secrets = require('./secrets.json');
+const apiKey = secrets.gemini_api; 
 const genAI = new GoogleGenerativeAI(apiKey);
   
 const model = genAI.getGenerativeModel({
@@ -86,5 +85,4 @@ const result = await chatSession.sendMessage(prompt);
 console.log(result.response.text());
 }
 
-run();
-
+run()
