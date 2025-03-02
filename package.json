@@ -2,5 +2,9 @@
   "dependencies": {
     "@google/generative-ai": "^0.22.0",
     "axios": "^1.8.1"
+  },
+  "devDependencies": {
+    "@types/expo": "^32.0.13",
+    "typescript": "^5.8.2"
   }
 }
