@@ -1,7 +1,7 @@
 import Axios from "axios";
 import fs from 'fs';
 
-const gemini_task_output = "Hewllo, I am a virtual assistant. How can I help you today?";
+const gemini_task_output = "";
 const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
 const headers = {
     authorization: secrets.bland_api,
