@@ -2,22 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, Button, Text, Image } from "react-native";
 import { CameraView, useCameraPermissions, CameraViewRef } from "expo-camera";
 import * as Location from "expo-location";
-import * as FileSystem from "expo-file-system";
+import axios from "axios";
+const secrets = require("../spoticry/assets/secrets.json");
+
 export default function PhotoTaker() {
   const [imageUri, setImageUri] = useState(null);
   const [geolocation, setGeolocation] = useState(null);
-  //const [camera, setCamera] = useState(null);
-
-  // Use the useCameraPermissions hook to get permission status
   const [permission, requestPermission] = useCameraPermissions();
-
   const cameraRef = useRef(null);
 
-  // Check if permissions are granted
   useEffect(() => {
     if (permission && permission.granted) {
       console.log("one");
-      // Camera permissions granted, now request location
       const getLocationPermission = async () => {
         const { status: locationStatus } =
           await Location.requestForegroundPermissionsAsync();
@@ -31,7 +27,7 @@ export default function PhotoTaker() {
     }
   }, [permission]);
 
-  //   photo and get geolocation
+  // Handle capture and send data to Twilio
   const handleCapture = async () => {
     console.log(cameraRef);
     if (cameraRef.current) {
@@ -45,47 +41,41 @@ export default function PhotoTaker() {
       const { coords } = await Location.getCurrentPositionAsync({});
       setGeolocation(coords);
 
-      // Save image and geolocation to a file
-      await saveDataToFile(photo.uri, coords);
+      // Send image and geolocation to Twilio
+      await sendToTwilio(photo.uri, coords.latitude, coords.longitude);
     }
   };
 
-  //  to save image URI and geolocation to a file
-  const saveDataToFile = async (imageUri, coords) => {
-    const fileUri = FileSystem.documentDirectory + "user_data.json";
+  // Function to send data to Twilio
+  const sendToTwilio = async (imageUri, latitude, longitude) => {
+    try {
+      const { auth_token, account_sid, url } = secrets; // Use secrets from the json file
 
-    const data = {
-      imageUri,
-      geolocation: coords,
-    };
+      const message = `Hi, this username registered you as an emergency contact. They pressed a panic button and were last seen at longitude: ${longitude}, latitude: ${latitude}.`;
 
-    //  data to the file
-    await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(data), {
-      encoding: FileSystem.EncodingType.UTF8,
-    });
+      const data = new URLSearchParams({
+        To: "+18777804236", // Your recipient phone number
+        From: "+18779089736", // Your Twilio phone number
+        //Body: message,
+        Body: "HI!",
+      });
 
-    console.log("Data saved to", fileUri);
-  };
+      // Sending the message to Twilio via Axios
+      const response = await axios.post(url, data, {
+        auth: {
+          username: account_sid,
+          password: auth_token,
+        },
+      });
 
-  const onCameraReady = () => {
-    console.log("READY");
-    // startCapturingFrames();
-  };
-
-  const startCapturingFrames = () => {
-    const interval = setInterval(async () => {
-      const cameraRefValue = cameraRef.current;
-      if (cameraRefValue) {
-        const photo = await cameraRefValue.current?.takePicture({
-          base64: true,
-        });
-        if (photo) {
-          console.log(photo.base64);
-        }
-      }
-    }, 1000); // capture the frame every so often
-
-    return () => clearInterval(interval);
+      console.log("Message sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      console.error(
+        "Error sending message:",
+        error.response ? error.response.data : error.message
+      );
+    }
   };
 
   return (
