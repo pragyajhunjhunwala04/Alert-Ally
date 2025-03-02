@@ -9,7 +9,7 @@ const {
     HarmBlockThreshold,
   } = require("@google/generative-ai");
   
-const secretsPath = path.join(__dirname, 'secrets.json');
+const secretsPath = path.join(__dirname, '../secrets.json');
 const secrets = JSON.parse(fs.readFileSync(secretsPath, 'utf8'));
 const apiKey = secrets.gemini_api;
 const genAI = new GoogleGenerativeAI(apiKey);
