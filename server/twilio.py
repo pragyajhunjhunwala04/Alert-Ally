@@ -1,7 +1,7 @@
 import requests
 import json
 
-with open('../secrets.json') as f:
+with open('secrets.json') as f:
     secrets = json.load(f)
 
 auth_token = secrets['auth_token']
