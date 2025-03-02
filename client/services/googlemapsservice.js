@@ -13,7 +13,7 @@ let marker;
 let userLocation = null;
 
 // Replace with your actual API key
-const GOOGLE_MAPS_API_KEY = 'u-6DvD_7R0DT_vQ2tjQ-COTtF0k=';
+const GOOGLE_MAPS_API_KEY = config.GOOGLE_MAPS_API_KEY;
 
 // Initialize the map
 function initMap() {
