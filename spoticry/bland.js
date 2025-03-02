@@ -1,12 +1,13 @@
 // bland.js
 import axios from "axios";
 import { run } from './gemini.js';
-import { createRequire } from 'module';
+// import { createRequire } from 'module';
+import secrets from "./secrets.json"
 
-// Create a require function
-const require = createRequire(import.meta.url);
-// Use require for JSON files which don't have a default ES module loading mechanism
-const secrets = require('./secrets.json');
+// // Create a require function
+// const require = createRequire(import.meta.url);
+// // Use require for JSON files which don't have a default ES module loading mechanism
+// const secrets = require('./secrets.json');
 
 async function makeCall() {
     try {

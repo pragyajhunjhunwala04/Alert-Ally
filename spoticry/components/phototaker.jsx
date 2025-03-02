@@ -3,7 +3,7 @@ import { View, Button, Text, Image } from "react-native";
 import { CameraView, useCameraPermissions, CameraViewRef } from "expo-camera";
 import * as Location from "expo-location";
 import axios from "axios";
-const secrets = require("../spoticry/assets/secrets.json");
+const secrets = require("../secrets.json");
 
 export default function PhotoTaker() {
   const [imageUri, setImageUri] = useState(null);
