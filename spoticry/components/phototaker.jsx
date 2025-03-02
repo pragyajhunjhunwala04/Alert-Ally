@@ -57,7 +57,7 @@ export default function PhotoTaker() {
         To: "+18777804236", // Your recipient phone number
         From: "+18779089736", // Your Twilio phone number
         //Body: message,
-        Body: "HI!",
+       Body: "Hi, this username registered you as an emergency contact. They pressed a panic button and were last seen at longitude: -122.406417, latitude: 37.785834.",
       });
 
       // Sending the message to Twilio via Axios
