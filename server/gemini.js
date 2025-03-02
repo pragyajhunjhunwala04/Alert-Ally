@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-//take in code word
+//give name and code word
 
 prompt = `Prompt: Create a Spoticry Conversation Flow over a phone call. You are tasked with creating a realistic conversation flow for Spoticry, a virtual companion safety app. Spoticry simulates a concerned friend or family member who is expecting to meet the user soon, providing security for people who feel anxious when traveling alone.
 App Concept: Spoticry creates the impression that someone is waiting for the user at a destination, maintaining a natural conversation that feels like chatting with a real person who cares about their safe arrival.
