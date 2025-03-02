@@ -32,7 +32,6 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-firebase/app",
       [
         "expo-camera",
         {
@@ -41,7 +40,6 @@
           "recordAudioAndroid": true
         }
       ],
-      "@react-native-firebase/auth",
       [
         "expo-build-properties",
         {
