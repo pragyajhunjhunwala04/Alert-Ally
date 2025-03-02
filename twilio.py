@@ -16,7 +16,10 @@ data = {
 }
 auth = (account_sid,auth_token)
 
+#twilio api call
 response = requests.post(url, data=data, auth=auth)
 
 print(response.status_code)
 print(response.json())
+
+#convert to java script
